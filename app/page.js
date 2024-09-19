@@ -2,7 +2,9 @@
 
 import Image from "next/image";
 import { useState } from 'react';
-import { Box, Stack, TextField, Button } from "@mui/material";
+import { Box, Stack, TextField, Button, ThemeProvider, Typography } from "@mui/material";
+import theme from './theme'
+
 
 export default function Home() {
   const [messages, setMessages] = useState([{
@@ -55,54 +57,112 @@ export default function Home() {
   };
 
   return (
+    <ThemeProvider theme={theme}>
     <Box
-      width="100vw"
-      height="100vh"
-      display="flex"
-      flexDirection="column"
-      justifyContent="center"
-      alignItems="center"
+      sx={{
+        backgroundImage: `url('/background1.png')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        height: '100vh',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+      }}
     >
-      <Stack
-        direction="column"
-        width="600px"
-        height="700px"
-        border="1px solid black"
+      <Box
+        width="300px"
+        height="100%"      
+        // bgcolor="rgba(255, 255, 255, 0.9)"
         p={2}
-        spacing={3}
+        borderRight="1px solid '#584af1"
+        overflow="auto"
+      >
+        <Typography variant="h1" sx={{color: "white", textAlign: "center"}}mb={2}>Healthia🌱</Typography>
+        <Stack spacing={2}  height={500}>
+          <Box
+          width="300px"
+          height="100%"
+          sx={{
+            paddingLeft: '0px',
+            backgroundImage: `url('/doctor.png')`,
+            backgroundSize: 'cover',
+          }}
+          // bgcolor="rgba(255, 255, 255, 0.9)"
+          p={2}
+          borderRight="1px solid #584af1"
+          overflow="auto"
+        ></Box>
+      <Box>
+        <Typography variant="body2" sx={{textAlign: 'center', color: "white"}}>
+          Here to care...
+        </Typography>
+      </Box>
+        </Stack>
+      </Box>
+      <Box
+        flexGrow={1}
+        height="100%"
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        p={3}
       >
         <Stack
-          direction="column"
-          spacing={2}
-          flexGrow={1}
-          overflow="auto"
-          maxHeight="100%"
+          direction={'column'}
+          width="100%"
+          height="100%"
+          bgcolor="rgba(0, 0, 0, 0.3)"
+          borderRadius="16px"
+          p={3}
+          overflow="hidden"
         >
-          {
-            messages.map((message, index) => (
-              <Box key={index} display='flex' justifyContent={
-                message.role === 'assistant' ? 'flex-start' : 'flex-end'
-              }>
-                <Box bgcolor={message.role === 'assistant' ? 'primary.main' : 'secondary.main'}
-                  color="white"
-                  borderRadius={16}
-                  p={3}>
-                  {message.content}
+          <Stack
+            direction={'column'}
+            spacing={2}
+            flexGrow={1}
+            overflow="auto"
+          >
+            {messages.map((message, index) => (
+              <Box
+                key={index}
+                display="flex"
+                justifyContent={
+                  message.role === 'assistant' ? 'flex-start' : 'flex-end'
+                }
+              >
+                <Box
+                  bgcolor={
+                    message.role === 'assistant'
+                      ? 'primary.main'
+                      : 'secondary.main'
+                  }
+                  color={message.role === 'assistant' ? 'black' : 'white'}
+                  borderRadius="16px"
+                  p={2}
+                  maxWidth="75%"
+                >
+                  <Typography variant="body2">{message.content}</Typography>
                 </Box>
               </Box>
-            ))
-          }
+            ))}
+          </Stack>
+          <Stack direction={'row'} spacing={2} mt={2}>
+            <TextField
+              label="Message"
+              fullWidth
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              variant="outlined"
+            />
+            <Button variant="contained" onClick={sendMessage} sx={{ minWidth: '120px' }}>
+              Send
+            </Button>
+          </Stack>
         </Stack>
-        <Stack direction="row" spacing={2}>
-          <TextField
-            fullWidth
-            label="Message"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-          <Button variant="contained" onClick={sendMessage}>Send</Button>
-        </Stack>
-      </Stack>
+      </Box>
     </Box>
+  </ThemeProvider>
+
+
   );
 }
