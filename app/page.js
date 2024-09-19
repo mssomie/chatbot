@@ -9,7 +9,7 @@ import theme from './theme'
 export default function Home() {
   const [messages, setMessages] = useState([{
     role: 'assistant',
-    content: 'Hello! I am Healthia, your friendly and professional AI health assistant designed to help users with health-related questions and concerns.'
+    content: 'Hello! I am Healthia, your friendly and professional AI health assistant. What can I help you with today?'
   }]);
 
   const [message, setMessage] = useState('');
